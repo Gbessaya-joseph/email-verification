@@ -1,0 +1,49 @@
+# docker-compose.yml
+services:
+  # Service PostgreSQL
+  postgresql:
+    image: postgres:16-alpine # Utilisation de la version 16, légère
+    container_name: pg-verification
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      -  "5433:5433" # Mappe le port du conteneur au port de l'hôte
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Volume persistant pour les données de PostgreSQL
+    # restart: always # Redémarre le conteneur si un arrêt inattendu se produit
+
+  # Service Redis
+  redis:
+    image: redis:7-alpine # Utilisation de la version 7, légère
+    container_name: redis-verification
+    command: redis-server --appendonly yes # Active la persistance AOF pour Redis (optionnel pour dev, mais bonne pratique)
+    ports:
+      - "6379:6379" # Mappe le port du conteneur au port de l'hôte
+    volumes:
+      - redisdata:/data # Volume persistant pour les données de Redis (si AOF est activé)
+    # restart: always # Redémarre le conteneur si un arrêt inattendu se produit
+
+     # Next.js app
+  nextjs:
+    build:
+      context: ./email-verification-app # Chemin vers le répertoire de l'application Next.js email-verification-app
+      dockerfile: Dockerfile
+    container_name: email-verification
+    ports:
+      - "3000:3000" # Expose l'application sur localhost:3000
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: development
+    depends_on:
+      - postgresql
+      - redis
+    volumes:
+      - ./email-verification-app:/app:cached
+    restart: unless-stopped
+
+volumes:
+  pgdata: # Déclaration du volume pour PostgreSQL
+  redisdata: # Déclaration du volume pour Redis
