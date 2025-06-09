@@ -2,13 +2,13 @@
 
 import redis from '@/lib/redis'; // Utilisation de l'alias '@' pour les imports absolus
 import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server'; // Importe NextResponse pour les réponses JSON
+import { NextResponse } from 'next/server'; //NextResponse pour les réponses JSON
 
 const prisma = new PrismaClient();
 
 // Fonction POST pour gérer les requêtes d'envoi d'e-mail de vérification
 export async function POST(req: Request) {
-  // Le corps de la requête est lu via req.json()
+
   const { email }: { email?: string } = await req.json();
 
   if (!email) {
