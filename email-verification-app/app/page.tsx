@@ -21,6 +21,12 @@ export default function Home() {
         body: JSON.stringify({ email }),
       });
 
+      if (!response.ok) {
+        const text = await response.text(); // Pour afficher la vraie réponse (souvent du HTML)
+        console.error("Erreur API:", text);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const data: { message: string } = await response.json(); // Typage simple de la réponse
 
       if (response.ok) {
@@ -47,6 +53,12 @@ export default function Home() {
         },
         body: JSON.stringify({ email, code: verificationCode }),
       });
+      
+      if (!response.ok) {
+        const text = await response.text(); // Pour afficher la vraie réponse (souvent du HTML)
+        console.error("Erreur API:", text);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
       const data: { message: string } = await response.json();
 
@@ -63,9 +75,10 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Inscription et Vérification d'E-mail</h1>
-
+    <div className='container m-auto p-4 max-w-[600px] text-center rounded-2xl bg-background'>
+      <div className='bg-gradient-to-b from-blue-500 to-blue-300 p-4 rounded-t-2xl'>
+        <h1 className='text-3xl'>Inscription et Vérification d'E-mail</h1>
+      </div>
       {!showVerificationForm ? (
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Adresse E-mail :</label>
@@ -95,9 +108,10 @@ export default function Home() {
             onChange={(e) => setVerificationCode(e.target.value)}
             required
             style={{ padding: '8px', margin: '5px 0', width: '200px' }}
+            className='border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
           <br />
-          <button type="submit" style={{ padding: '10px 15px', marginTop: '10px' }}>
+          <button type="submit" className='p-2 mt-2 '>
             Vérifier mon E-mail
           </button>
         </form>
