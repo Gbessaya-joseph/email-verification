@@ -10,7 +10,7 @@ COPY package.json package-lock.json* ./
 
 # Installation des dépendances
 RUN npm install
-
+RUN npx prisma generate
 # Copie du reste de l’application
 COPY . .
 
