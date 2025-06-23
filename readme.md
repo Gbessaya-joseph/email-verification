@@ -72,5 +72,11 @@ Suivez ces étapes pour mettre le projet en marche sur votre machine locale.
 ### 1. Clonage du Répertoire
 
 ```bash
-git clone [https://github.com/votre-utilisateur/votre-repo.git](https://github.com/votre-utilisateur/votre-repo.git) # Remplacez par le vrai URL de votre repo
-cd votre-repo # Accédez au répertoire racine du projet
+git clone [https://github.com/Gbessaya-joseph/email-verification.git](https://github.com/Gbessaya-joseph/email-verification.git)
+cd email-verification # Accédez au répertoire racine du projet
+```
+### 2. Demarer le conteneur
+```bash
+docker-compose up #ou
+docker compose up
+```
