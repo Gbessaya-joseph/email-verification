@@ -21,12 +21,6 @@ export default function Home() {
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) {
-        const text = await response.text(); // Pour afficher la vraie réponse (souvent du HTML)
-        console.error("Erreur API:", text);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data: { message: string } = await response.json(); // Typage simple de la réponse
 
       if (response.ok) {
