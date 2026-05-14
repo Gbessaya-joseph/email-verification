@@ -18,7 +18,7 @@ services:
   redis:
     image: redis:7-alpine # Utilisation de la version 7, légère
     container_name: redis-verification
-    command: redis-server --appendonly yes # Active la persistance AOF pour Redis (optionnel pour dev, mais bonne pratique)
+    command: redis-server --appendonly yes # Active la persistance AOF pour Redis (optionnel pour dev, mais recommandé pour la production)
     ports:
       - "6379:6379" # Mappe le port du conteneur au port de l'hôte
     volumes:
